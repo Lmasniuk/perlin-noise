@@ -1,52 +1,37 @@
-let xoff1 = 0;
-let xoff2 = 10000;
-
-let inc = 0.01;
-let start = 1;
+let inc = 0.1;
 
 function setup() {
-    createCanvas(400, 400);
+    createCanvas(600, 600);
+    pixelDensity(1);
 }
 
 function draw() {
-    background(52, 235, 192);
+    // let inc = 0.1;
 
-    const x = map(noise(xoff1), 0, 1, 0, width);
-    const y = map(noise(xoff2), 0, 1, 0, height);
+    let yoff = 0;
+    loadPixels();
 
-    ellipse(x, y, 24, 24);
+    for (let y = 0; y < height; y++) {
+        let xoff = 0;
+        for (let x = 0; x < width; x++) {
+            let index = (x + y * width) * 4;
+            // let r = noise(xoff, yoff) * 255;
 
-    xoff1 += 0.01;
-    xoff2 += 0.02;
+            //This line will make the perlin noise values re-generate each time,
+            // creating a more animated effect
+            let r = noise(xoff, yoff, frameCount * 0.02) * 255;
+
+            pixels[index] = 1;
+            pixels[index + 1] = r;
+            pixels[index + 2] = 1;
+            pixels[index + 3] = 255;
+            xoff += inc;
+        }
+        yoff += inc;
+    }
+    updatePixels();
+
+    //Update the increment to make things super trippy! Has a zooming out effects
+    // inc += 0.0001;
+    // noLoop();
 }
-
-// function draw() {
-//     //Set background color
-//     background(204, 153, 255);
-
-//     //The starting point in the perlin noise number set changes each frame(60fps)
-//     let xoff = start;
-
-//     //Put the paintbrush down to draw a line
-//     stroke(0);
-
-//     //disables filling shapes with color. Ensuring that the shape is not filled with any color(white in this case, i think...), which leaves only the stroke visible.
-//     noFill();
-
-//     //Creates the line effect, otherwise we are just painting in a thick stroke... sorta(words are hard)
-//     beginShape();
-//     for (let x = 0; x < innerWidth; x++) {
-//         // let n = map(noise(xoff),0,1,-50,50);
-//         // let s = map(sin(xoff),-1,1,0,height);
-
-//         let n = map(noise(xoff), 0, 1, 0, height);
-//         let s = map(sin(xoff), -1, 1, -50, 50);
-//         let y = s + n;
-//         // let y = noise(xoff) * height;
-//         vertex(x, y);
-//         xoff += inc;
-//     }
-//     endShape();
-//     start += inc;
-//     // noLoop();
-// }
