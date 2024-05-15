@@ -21,9 +21,10 @@ function draw() {
     // Use Perlin noise to determine the x and y coordinates of the white dot.
     // We map the noise values to the width and height of the canvas to position the dot.
     const x = map(noise(xoff1), 0, 1, 0, width);
-    const y = map(noise(xoff2), 0, 1, 0, height);
+    // const x = random(width);
+    // const y = map(noise(xoff2), 0, 1, 0, height);
 
-    ellipse(x, y, 24, 24);
+    ellipse(x, height / 2, 24, 24);
 
     // Increment the Perlin noise values to move through the noise space.
     // Increasing the increments will make the movement faster.
